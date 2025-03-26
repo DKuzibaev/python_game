@@ -2,7 +2,7 @@ title = 'Welcome to Crosses and Noughts!\n'
 print(title.upper())
 
 def create_game_field():
-    field_width = int(input("Enter the dimensions of the playing field: standards 3x3, 4x4, 5x5, 6x6 \n"))
+    field_width = int(input("Enter the dimensions of the playing field: standards 3x3, 6x6, 12x12 \n"))
     if field_width > 6:
         print("Invalid field value")
         return
@@ -24,7 +24,9 @@ def character_selection():
         else:
             return player_one.upper(), player_two.upper()
 
-
+def print_field():
+    for i in field:
+        print(i)
 
 field = create_game_field()
 
@@ -32,6 +34,16 @@ player_one, player_two= character_selection()
 print(f'Player One => {player_one}', f'Player Two => {player_two}\n', sep='\n')
 
 print('Your playing field looks like this..\n')
-for i in field:
-    print(i)
+print_field()
 
+def game_logic(char):
+    x, y = int(input('Enter number of column - ')), int(input('Enter number of row - '))
+
+    for col in range(len(field)):
+        if col == x:
+            for row in range(len(field[col])):
+                if row == y and row == 0:
+                    field[col][row] = char
+
+game_logic(player_one)
+print_field()
