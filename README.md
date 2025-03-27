@@ -25,7 +25,9 @@
 
 ## Заключение
 
-Этот README — краткое руководство, чтобы начать играть в крестики-нолики. Наслаждайтесь игрой и не стесняйтесь предлагать улучшения или вносить свой вклад!
+Этот README — краткое руководство, чтобы начать играть в крестики-нолики. Наслаждайтесь игрой и не стесняйтесь предлагать улучшения или вносить свой вклад! 
+
+#### P.S Я еще не закончил поэтому поиграть не полочится.((( НО *очень, очень, очень* скоро все будет работать на нужно. Извините за неудобства!
 
 _______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -57,3 +59,5 @@ Welcome to the Tic-Tac-Toe project! This is a simple console-based game where tw
 ## Conclusion
 
 This README is a brief guide to get you started with the Tic-Tac-Toe game. Enjoy playing, and feel free to contribute or suggest improvements!
+
+#### P.S I haven't finished yet, so I can't wait to play.((( BUT *very, very, very* soon everything will be working for you. Sorry for the inconvenience!
