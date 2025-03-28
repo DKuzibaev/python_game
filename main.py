@@ -1,49 +1,110 @@
 title = 'Welcome to Crosses and Noughts!\n'
 print(title.upper())
 
+
 def create_game_field():
-    field_width = int(input("Enter the dimensions of the playing field: standards 3x3, 6x6, 12x12 \n"))
-    if field_width > 6:
-        print("Invalid field value")
-        return
-    else:
-        game_field = [[0 for i in range(field_width)] for j in range(field_width)]
-        print("The playing field has been successfully created!")
-        return game_field
+    while True:
+        try:
+            field_width = int(input("Enter the dimensions of the playing field (3, 6 or 12): "))
+            if field_width in [3, 6, 12]:
+                game_field = [[' ' for _ in range(field_width)] for _ in range(field_width)]
+                print("The playing field has been successfully created!")
+                return game_field
+            else:
+                print("Invalid field size. Please choose 3, 6 or 12.")
+        except ValueError:
+            print("Please enter a valid number!")
+
 
 def character_selection():
     while True:
-        player_one = input('Choose a character of player one: X or O\n').lower()
-        player_two = input('Choose a character of player two: X or O\n').lower()
-        if player_one.lower() == player_two.lower():
-            print("Error: You can't choose the same characters.")
+        player_one = input('Choose a character of player one (X or O): ').upper()
+        if player_one not in ['X', 'O']:
+            print("Error: Please choose either X or O.")
             continue
-        elif (player_one != "x" and player_one != "o") or (player_two != "x" and player_two != "o"):
-            print("Error: You have chosen a non-existent character.")
-            continue
-        else:
-            return player_one.upper(), player_two.upper()
 
-def print_field():
-    for i in field:
-        print(i)
+        player_two = 'O' if player_one == 'X' else 'X'
+        print(f"Player Two will be {player_two}")
+        return player_one, player_two
 
-field = create_game_field()
 
-player_one, player_two= character_selection()
-print(f'Player One => {player_one}', f'Player Two => {player_two}\n', sep='\n')
+def print_field(field):
+    size = len(field)
+    # Print column numbers
+    print("   " + "  ".join(str(i) for i in range(size)))
+    # Print separator line
+    print("  " + "+---" * size + "+")
 
-print('Your playing field looks like this..\n')
-print_field()
+    for i, row in enumerate(field):
+        print(f"{i} | " + " | ".join(cell if cell != ' ' else ' ' for cell in row) + " |")
+        print("  " + "+---" * size + "+")
 
-def game_logic(char):
-    x, y = int(input('Enter number of column - ')), int(input('Enter number of row - '))
 
-    for col in range(len(field)):
-        if col == x:
-            for row in range(len(field[col])):
-                if row == y and row == 0:
-                    field[col][row] = char
+def is_winner(field, player):
+    size = len(field)
 
-game_logic(player_one)
-print_field()
+    # Check rows and columns
+    for i in range(size):
+        if all(cell == player for cell in field[i]):  # Check row
+            return True
+        if all(field[j][i] == player for j in range(size)):  # Check column
+            return True
+
+    # Check diagonals
+    if all(field[i][i] == player for i in range(size)):  # Main diagonal
+        return True
+    if all(field[i][size - 1 - i] == player for i in range(size)):  # Anti-diagonal
+        return True
+
+    return False
+
+
+def is_draw(field):
+    return all(cell != ' ' for row in field for cell in row)
+
+
+def game_loop():
+    field = create_game_field()
+    player_one, player_two = character_selection()
+    current_player = player_one
+    print('\nYour playing field looks like this:')
+    print_field(field)
+
+    while True:
+        print(f"\nPlayer {current_player}'s turn")
+        while True:
+            try:
+                x = int(input('Enter column number (0 to {}): '.format(len(field) - 1)))
+                y = int(input('Enter row number (0 to {}): '.format(len(field) - 1)))
+
+                if x < 0 or x >= len(field) or y < 0 or y >= len(field):
+                    print("Coordinates out of bounds! Try again.")
+                elif field[y][x] != ' ':
+                    print("This cell is already taken! Try again.")
+                else:
+                    break
+            except ValueError:
+                print("Please enter valid numbers!")
+
+        field[y][x] = current_player
+        print_field(field)
+
+        if is_winner(field, current_player):
+            print(f"\nPlayer {current_player} wins! Congratulations!")
+            break
+
+        if is_draw(field):
+            print("\nIt's a draw! The field is full.")
+            break
+
+        current_player = player_two if current_player == player_one else player_one
+
+    play_again = input("\nDo you want to play again? (yes/no): ").lower()
+    if play_again == 'yes':
+        game_loop()
+    else:
+        print("Thanks for playing!")
+
+
+# Start the game
+game_loop()
