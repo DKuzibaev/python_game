@@ -15,7 +15,6 @@ def create_game_field():
         except ValueError:
             print("Please enter a valid number!")
 
-
 def character_selection():
     while True:
         player_one = input('Choose a character of player one (X or O): ').upper()
